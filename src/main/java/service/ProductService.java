@@ -87,8 +87,9 @@ public class ProductService extends Util implements ProductDAO {
                 "WHERE p.name = ?; ";
         String sqlUpdate1 =  "update product  " +
                 "SET price = ?, description = ? where name = ? ;";
+        PreparedStatement preparedStatementProduct =null;
         try {
-            PreparedStatement preparedStatementProduct = connection.prepareStatement(sqlUpdate);
+            preparedStatementProduct = connection.prepareStatement(sqlUpdate);
             preparedStatementProduct.setString(4, product.getName());
             preparedStatementProduct.setString(1, product.getNewName());
             preparedStatementProduct.setString(2, type.getName());
@@ -104,8 +105,8 @@ public class ProductService extends Util implements ProductDAO {
         }catch (SQLException e){
             e.printStackTrace();
         }finally {
-            if(preparedStatement !=null){
-                preparedStatement.close();
+            if(preparedStatementProduct !=null){
+                preparedStatementProduct.close();
             }
             if (connection != null){
                 connection.close();
@@ -116,8 +117,9 @@ public class ProductService extends Util implements ProductDAO {
     @Override
     public void search(Product product) throws SQLException {
         String sqlForSearch = "select * from product where name = ?;";
+        PreparedStatement statement1 = null;
         try {
-            PreparedStatement statement1 = connection.prepareStatement(sqlForSearch);
+            statement1 = connection.prepareStatement(sqlForSearch);
             statement1.setString(1, product.getName());
             ResultSet resultSet = statement1.executeQuery();
             while (resultSet.next()) {
@@ -127,8 +129,8 @@ public class ProductService extends Util implements ProductDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
-            if(preparedStatement !=null){
-                preparedStatement.close();
+            if(statement1 !=null){
+                statement1.close();
             }
             if (connection != null){
                 connection.close();
@@ -147,8 +149,8 @@ public class ProductService extends Util implements ProductDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
-            if(preparedStatement !=null){
-                preparedStatement.close();
+            if(preparedStatementDelete !=null){
+                preparedStatementDelete.close();
             }
             if (connection != null){
                 connection.close();
@@ -159,7 +161,8 @@ public class ProductService extends Util implements ProductDAO {
     @Override
     public boolean correctInput(Product product) throws SQLException {
         String sqlForSearch = "select COUNT(*) AS count FROM product where name = ?; ";
-            PreparedStatement statement1 = connection.prepareStatement(sqlForSearch);
+            PreparedStatement statement1 =  null;
+           statement1 = connection.prepareStatement(sqlForSearch);
             statement1.setString(1, product.getName());
             ResultSet resultSet = statement1.executeQuery();
             if (resultSet.next()){
