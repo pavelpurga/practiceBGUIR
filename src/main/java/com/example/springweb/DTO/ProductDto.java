@@ -17,6 +17,8 @@ public class ProductDto implements Serializable {
     private  String name;
     private  float price;
     private  String description;
+    private String type;
+    private String brand;
     private Set<Type> types;
     private Set<Brand> brands;
     public ProductDto(){
@@ -29,6 +31,22 @@ public class ProductDto implements Serializable {
 
     public void setBrands(Set<Brand> brands) {
         this.brands = brands;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     @JsonIgnore

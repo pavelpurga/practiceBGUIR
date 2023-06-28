@@ -19,6 +19,10 @@ public class Product {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "type",nullable = false)
+    private String type;
+    @Column(name = "brand",nullable = false)
+    private String brand;
     @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JoinTable(name = "product_type_brand",
             joinColumns = @JoinColumn(name = "product_id"),
@@ -41,6 +45,22 @@ public class Product {
     @JsonIgnore
     public Set<Brand> getBrands() {
         return brands;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public void setBrands(Set<Brand> brands) {

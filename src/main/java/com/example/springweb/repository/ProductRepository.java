@@ -10,13 +10,14 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Integer> {
- List<Product> deleteByName(String name);
+ void deleteById(Integer id);
  List<Product> findByName(String name);
 
  Product save(Product product);
 
  Optional<Product> findById(Integer productId);
 
+ List<Product> findAll();
  Optional<Product> getProductsById(Integer productId);
 
 }

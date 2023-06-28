@@ -7,14 +7,13 @@ import com.example.springweb.entity.Type;
 import com.example.springweb.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-@Controller
+@RestController
+@RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
 
@@ -23,30 +22,38 @@ public ProductController(ProductService productService){
     this.productService = productService;
     }
 
-    @GetMapping("/productFind")
-    public ResponseEntity<List<Product>> showProduct(@RequestParam String name){
+    @GetMapping
+    public  ResponseEntity<List<Product>> getProducts(){
+        List<Product> products = productService.findAll();
+        return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<List<Product>> showProduct(@PathVariable String name){
         List<Product> products = productService.findProductByName(name);
        return ResponseEntity.ok(products);
     }
 
-    @DeleteMapping("/productDel")
-    public ResponseEntity<List<Product>> deleteProduct(@RequestParam String name){
-        List<Product> products = productService.deleteProductByName(name);
-        return ResponseEntity.ok(products);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Integer id){
+        productService.deleteProductById(id);
+        return ResponseEntity.ok().build();
     }
-    @PostMapping("/productAdd")
+    @PostMapping
     public  ResponseEntity<ProductDto> addProduct(@RequestBody Product product){
         ProductDto productDto = new ProductDto();
         productDto.setName(product.getName());
         productDto.setPrice(product.getPrice());
         productDto.setDescription(product.getDescription());
+        productDto.setType(product.getType());
+        productDto.setBrand(product.getBrand());
         productService.addProducts(product);
         return ResponseEntity.ok(productDto);
     }
 
-    @PutMapping("/productUpdate")
-    public  ResponseEntity<Product> updateProducts(@RequestParam Integer productId, @RequestBody Product updatedProduct,Type type,Brand brand){
-        Optional<Product> idForSearch= productService.getProductsById(productId);
+    @PutMapping("/{id}")
+    public  ResponseEntity<Product> updateProducts(@PathVariable Integer id, @RequestBody Product updatedProduct,Type type,Brand brand){
+        Optional<Product> idForSearch= productService.getProductsById(id);
         if(idForSearch.isPresent()){
             Product product = idForSearch.get();
             product.setName(updatedProduct.getName());

@@ -1,0 +1,19 @@
+
+.productListContainer{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(448px,1fr));
+    gap: 24px;
+}
+.productListTitle{
+    align-content: center;
+    justify-content: center;
+}
+.productListElement{
+        max-width: 1440px;
+    min-width: 320px;
+    margin: 0;
+    padding: 10px 24px 44px;
+}

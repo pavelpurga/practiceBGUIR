@@ -30,13 +30,16 @@ public class ProductService {
         this.brandRepository = brandRepository;
     }
 
+    public List<Product> findAll(){
+        return productRepository.findAll();
+    }
     public List<Product> findProductByName(String name) {
         return productRepository.findByName(name);
     }
 
     @Transactional
-    public List<Product> deleteProductByName(String name) {
-        return productRepository.deleteByName(name);
+    public void deleteProductById(Integer id) {
+         productRepository.deleteById(id);
     }
 
     public Product addProducts(Product product) {
