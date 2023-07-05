@@ -1,18 +1,21 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Container } from 'reactstrap';
-import Header from "./header/header";
+import React from 'react';
+import {Button, Container} from 'reactstrap';
+import ProductListForUser from "./productList/ProductListForUser";
+import {observer} from "mobx-react-lite";
+import {useHistory} from "react-router-dom";
+import {BASKET_ROUTE} from "./pages/consts";
 
-class Home extends Component {
-    render() {
-        return (
-            <div>
-                <Header/>
-                <Container fluid>
-                    <Button color="link">< Link to="/products">Products</Link></Button>
-                </Container>
-            </div>
-        );
-    }
-}
+
+const Home = observer(() => {
+    const history = useHistory()
+    return (
+        <div>
+            <Container fluid>
+                <Button onClick={()=>history.push(BASKET_ROUTE)}>Basket</Button>
+                <ProductListForUser/>
+            </Container>
+        </div>
+    );
+});
+
 export default Home;

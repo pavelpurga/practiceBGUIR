@@ -17,4 +17,8 @@ public interface UsersRepository extends JpaRepository<Users,Integer> {
     Users save(Users users);
 
     Optional<Users> getUsersById(Integer usersId);
+
+    List<Users> findAll();
+
+    void deleteById(Integer id);
 }

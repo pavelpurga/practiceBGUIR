@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
 import {Button, ButtonGroup, Container, Table} from "reactstrap";
-class ProductList extends Component {
+import { connect } from 'react-redux';
+import { addToCart } from '../reduxBasket/Actions';
+class ProductListForUser extends Component {
     constructor(props) {
         super(props);
         this.state = {products:[]};
@@ -9,7 +10,7 @@ class ProductList extends Component {
     }
     componentDidMount(){
         fetch('/products')
-        .then(response => response.json())
+            .then(response => response.json())
             .then(data => this.setState({products: data}));
     }
     async remove(id) {
@@ -24,8 +25,13 @@ class ProductList extends Component {
             this.setState({products: updatedProducts});
         });
     }
+    handleAddToCart = () => {
+        const {id,name,price,description} = this.props
+        this.props.addToCart({id,name,price,description,quantity: 1})
+    }
 
     render() {
+        const {id,name,price,description} = this.props
         const {products} = this.state;
         const productList = products.map(product => {
             return <tr key={product.id}>
@@ -35,10 +41,9 @@ class ProductList extends Component {
                 <td>{product.type}</td>
                 <td>{product.brand}</td>
                 <td>
-                    <ButtonGroup>
-                        <Button size="sm" color="primary" tag={Link} to={"/products/" + product.id}>Edit</Button>
-                        <Button size="sm" color="danger" onClick={() => this.remove(product.id)}>Delete</Button>
-                    </ButtonGroup>
+                    <Button onClick={this.handleAddToCart}>
+                        Add to basket
+                    </Button>
                 </td>
             </tr>
         });
@@ -46,9 +51,6 @@ class ProductList extends Component {
         return (
             <div>
                 <Container fluid>
-                    <div className="float-right">
-                        <Button color="success" tag={Link} to="/products/new">Add Product</Button>
-                    </div>
                     <h3>Products</h3>
                     <Table className="mt-4">
                         <thead>
@@ -69,5 +71,7 @@ class ProductList extends Component {
         );
     }
 }
-
-export default ProductList;
+const mapDispatchToProps = {
+    addToCart,
+}
+export default connect(null,mapDispatchToProps)(ProductListForUser)

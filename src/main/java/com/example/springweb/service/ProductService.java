@@ -20,14 +20,11 @@ import java.util.Set;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final TypeRepository typeRepository;
-    private final BrandRepository brandRepository;
+
 
     @Autowired
-    public ProductService(ProductRepository productRepository, TypeRepository typeRepository, BrandRepository brandRepository) {
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.typeRepository = typeRepository;
-        this.brandRepository = brandRepository;
     }
 
     public List<Product> findAll(){

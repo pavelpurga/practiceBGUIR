@@ -1,7 +1,9 @@
 package com.example.springweb.service;
 
+import com.example.springweb.entity.Product;
 import com.example.springweb.entity.Users;
 import com.example.springweb.repository.UsersRepository;
+import io.micrometer.common.lang.NonNull;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     @Autowired
     public UserService(UsersRepository usersRepository) {
@@ -38,5 +40,15 @@ public class UserService {
     public Optional<Users> getUserById(Integer productId){
         return usersRepository.getUsersById(productId);
     }
+    public Optional<Users> getByLogin(@NonNull String name) {
+        return usersRepository.findByName(name).stream().findFirst();
+    }
 
+    @Transactional
+    public void deleteUserById(Integer id){
+        usersRepository.deleteById(id);
+    }
+    public List<Users> findAll(){
+        return usersRepository.findAll();
+    }
 }

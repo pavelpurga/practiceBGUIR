@@ -1,7 +1,10 @@
 package com.example.springweb.entity;
 
+import com.example.springweb.jwt.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -16,7 +19,8 @@ public class Users {
     @Column(name = "email")
     private String email;
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role roles;
     @Column(name = "password")
     private String password;
     @Column(name = "basket_id")
@@ -70,12 +74,12 @@ public class Users {
         this.email = email;
     }
 
-    public String getRole() {
-        return role;
+    public Role getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(Role roles) {
+        this.roles = roles;
     }
 
     public String getPassword() {

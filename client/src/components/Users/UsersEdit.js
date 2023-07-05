@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import React, {Component} from 'react';
 import Header from "../header/header";
 import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
-class ProductEdit extends Component {
+import {Link} from "react-router-dom";
 
+class UsersEdit extends Component {
     emptyItem = {
         name: '',
-        price: 0,
-        description: '',
-        type:'',
-        brand:''
+        age: 0,
+        email: '',
+        role:'',
     };
 
     constructor(props) {
@@ -22,8 +21,8 @@ class ProductEdit extends Component {
     }
     async componentDidMount() {
         if (this.props.match.params.id !== 'new') {
-            const product = await (await fetch(`/products/${this.props.match.params.id}`)).json();
-            this.setState({item: product});
+            const user = await (await fetch(`/users/${this.props.match.params.id}`)).json();
+            this.setState({item: user});
         }
     }
     handleChange(event) {
@@ -38,7 +37,7 @@ class ProductEdit extends Component {
         event.preventDefault();
         const {item} = this.state;
 
-        await fetch('/products' + (item.id ? '/' + item.id : ''), {
+        await fetch('/users' + (item.id ? '/' + item.id : ''), {
             method: (item.id) ? 'PUT' : 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -46,11 +45,11 @@ class ProductEdit extends Component {
             },
             body: JSON.stringify(item),
         });
-        this.props.history.push('/products');
+        this.props.history.push('/users');
     }
     render() {
         const {item} = this.state;
-        const title = <h2>{item.id ? 'Edit Product' : 'Add Product'}</h2>;
+        const title = <h2>{item.id ? 'Edit User' : 'Add User'}</h2>;
 
         return <div>
             <Container>
@@ -62,32 +61,23 @@ class ProductEdit extends Component {
                                onChange={this.handleChange} autoComplete="name"/>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="price">Price</Label>
-                        <Input type="number" name="price" id="price" value={item.price || 0}
-                               onChange={this.handleChange} autoComplete="price"/>
+                        <Label for="age">Age</Label>
+                        <Input type="number" name="age" id="age" value={item.age || 0}
+                               onChange={this.handleChange} autoComplete="age"/>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="description">Description</Label>
-                        <Input type="text" name="description" id="description" value={item.description || ''}
-                               onChange={this.handleChange} autoComplete="description"/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="type">Type</Label>
-                        <Input type="text" name="type" id="type" value={item.type || ''}
-                               onChange={this.handleChange} autoComplete="type"/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="brand">Brand</Label>
-                        <Input type="text" name="brand" id="brand" value={item.brand || ''}
-                               onChange={this.handleChange} autoComplete="brand"/>
+                        <Label for="email">Email</Label>
+                        <Input type="text" name="email" id="email" value={item.email || ''}
+                               onChange={this.handleChange} autoComplete="email"/>
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Save</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/products">Cancel</Button>
+                        <Button color="secondary" tag={Link} to="/users">Cancel</Button>
                     </FormGroup>
                 </Form>
             </Container>
         </div>
     }
 }
-export default withRouter(ProductEdit);
+
+export default UsersEdit;
